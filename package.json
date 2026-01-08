@@ -1,0 +1,68 @@
+{
+  "name": "astro-nocrawl",
+  "version": "1.0.0",
+  "description": "Blocks search engines from crawling non-production Astro sites by generating a restrictive robots.txt at build time",
+  "homepage": "https://velohost.co.uk/plugins/astro-nocrawl/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/velohost/astro-nocrawl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/velohost/astro-nocrawl/issues"
+  },
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "withastro",
+    "astro-integration",
+    "seo",
+    "robots",
+    "no-crawl",
+    "staging",
+    "static-site"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "peerDependencies": {
+    "astro": "^4.0.0 || ^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "typescript": "^5.0.0"
+  },
+  "astro": {
+    "integration": {
+      "name": "astro-nocrawl",
+      "description": "Blocks search engines from crawling non-production Astro sites by generating a restrictive robots.txt at build time",
+      "entrypoint": "dist/index.js",
+      "config": {
+        "inject": true,
+        "schema": {
+          "enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable or disable crawl blocking"
+          },
+          "allow": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "description": "Hostnames that are allowed to be crawled"
+          }
+        }
+      }
+    }
+  }
+}
