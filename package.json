@@ -1,6 +1,6 @@
 {
   "name": "astro-nocrawl",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Blocks search engines from crawling non-production Astro sites by generating a restrictive robots.txt at build time",
   "homepage": "https://velohost.co.uk/plugins/astro-nocrawl/",
   "repository": {
@@ -34,7 +34,7 @@
     "build": "tsc"
   },
   "peerDependencies": {
-    "astro": "^4.0.0 || ^5.0.0"
+    "astro": "^4.0.0 || ^5.0.0 || ^6.0.0"
   },
   "devDependencies": {
     "@types/node": "^25.0.3",

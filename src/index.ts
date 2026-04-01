@@ -1,6 +1,7 @@
 import type { AstroIntegration } from "astro";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 type NoCrawlOptions = {
   /**
@@ -28,10 +29,7 @@ type NoCrawlOptions = {
 export default function astroNoCrawl(
   options: NoCrawlOptions = {}
 ): AstroIntegration {
-  const {
-    enabled = true,
-    allow = []
-  } = options;
+  const { enabled = true, allow = [] } = options;
 
   let shouldBlock = false;
 
@@ -47,21 +45,22 @@ export default function astroNoCrawl(
 
         const site = config.site;
 
-        // No site URL configured → safest behaviour is to block crawling
-        if (typeof site !== "string") {
+        // No site URL configured -> safest behaviour is to block crawling
+        if (!site) {
           shouldBlock = true;
           return;
         }
 
         try {
-          const hostname = new URL(site).hostname;
+          const siteUrlString = String(site as unknown);
+          const hostname = new URL(siteUrlString).hostname;
 
           // Exact hostname matching only (no implicit subdomains)
           const isAllowed = allow.includes(hostname);
 
           shouldBlock = !isAllowed;
         } catch {
-          // Invalid site URL → block crawling
+          // Invalid site URL -> block crawling
           shouldBlock = true;
         }
       },
@@ -72,14 +71,12 @@ export default function astroNoCrawl(
       "astro:build:done"({ dir }) {
         if (!enabled || !shouldBlock) return;
 
-        const outDir = new URL(dir).pathname;
+        const outDir = fileURLToPath(dir);
         if (!outDir || !fs.existsSync(outDir)) return;
 
         const robotsPath = path.join(outDir, "robots.txt");
 
-        const contents = `User-agent: *
-Disallow: /
-`;
+        const contents = `User-agent: *\nDisallow: /\n`;
 
         try {
           fs.writeFileSync(robotsPath, contents, {

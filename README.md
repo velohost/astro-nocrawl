@@ -4,6 +4,8 @@
 
 `astro-nocrawl` is a tiny, static-first Astro integration that prevents search engines from crawling staging, preview, or internal environments by generating a restrictive `robots.txt` file at build time.
 
+Compatible with Astro v4, v5, and v6.
+
 No runtime code.  
 No HTML mutation.  
 No adapters.  
